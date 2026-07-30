@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jennifer Holmquist — Producer & YouTube Optimization Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1F2A;
+    --ink-light:#252B3A;
+    --paper:#F1ECE1;
+    --paper-dim:#C9C3B4;
+    --gold:#C9A227;
+    --rec:#C1443C;
+    --teal:#4C7A6E;
+    --line: rgba(241,236,225,0.14);
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'Source Serif 4', Georgia, serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+
+  img{max-width:100%;display:block;}
+
+  /* ---------- utility ---------- */
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  .rec-dot{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--rec);
+    margin-right:8px;
+    box-shadow:0 0 0 0 rgba(193,68,60,0.5);
+    animation:pulse 2.4s infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .rec-dot{animation:none;}
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(193,68,60,0.45);}
+    70%{box-shadow:0 0 0 8px rgba(193,68,60,0);}
+    100%{box-shadow:0 0 0 0 rgba(193,68,60,0);}
+  }
+
+  /* ---------- sprocket rail ---------- */
+  .sprocket-rail{
+    position:fixed;
+    top:0; bottom:0;
+    width:26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+    z-index:5;
+    pointer-events:none;
+  }
+  .sprocket-rail.left{left:0;}
+  .sprocket-rail.right{right:0;}
+  .sprocket{
+    width:9px;
+    height:13px;
+    border-radius:3px;
+    background:var(--ink-light);
+    border:1px solid var(--line);
+  }
+  @media (max-width:720px){
+    .sprocket-rail{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    padding:80px 0 60px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1fr 300px;
+    gap:56px;
+    align-items:start;
+  }
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- viewfinder headshot ---------- */
+  .viewfinder{
+    position:relative;
+    aspect-ratio:4/5;
+    justify-self:end;
+    width:100%;
+    max-width:300px;
+    border:1px solid var(--line);
+    background:var(--ink-light);
+    padding:10px;
+  }
+  .viewfinder img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 20%;
+    filter:saturate(0.92) contrast(1.03);
+  }
+  .vf-corner{
+    position:absolute;
+    width:16px;
+    height:16px;
+    border:2px solid var(--gold);
+  }
+  .vf-corner.tl{top:10px; left:10px; border-right:none; border-bottom:none;}
+  .vf-corner.tr{top:10px; right:10px; border-left:none; border-bottom:none;}
+  .vf-corner.bl{bottom:10px; left:10px; border-right:none; border-top:none;}
+  .vf-corner.br{bottom:10px; right:10px; border-left:none; border-top:none;}
+  .vf-readout{
+    position:absolute;
+    top:22px; left:22px;
+    display:flex;
+    align-items:center;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.06em;
+    color:var(--paper);
+    text-shadow:0 1px 3px rgba(0,0,0,0.6);
+  }
+  .vf-readout .rec-dot{margin-right:6px;}
+  .vf-timecode{
+    position:absolute;
+    bottom:22px; right:22px;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--paper);
+    text-shadow:0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  @media (max-width:860px){
+    .viewfinder{justify-self:start; max-width:220px;}
+  }
+
+  header.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(241,236,225,0.025) 0px,
+        rgba(241,236,225,0.025) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    pointer-events:none;
+  }
+
+  .hero-slate{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:34px;
+  }
+
+  h1.name{
+    font-family:var(--display);
+    font-size:clamp(52px, 10vw, 108px);
+    line-height:0.94;
+    letter-spacing:0.01em;
+    color:var(--paper);
+  }
+
+  .role-line{
+    font-family:var(--mono);
+    font-size:clamp(14px, 2vw, 18px);
+    color:var(--gold);
+    margin-top:18px;
+    letter-spacing:0.02em;
+  }
+
+  .hero-summary{
+    max-width:560px;
+    margin-top:28px;
+    font-size:18px;
+    color:var(--paper-dim);
+  }
+
+  .scrubber{
+    position:relative;
+    max-width:640px;
+    margin-top:44px;
+    border:1px solid var(--line);
+    background:var(--ink-light);
+    padding:16px 18px 18px;
+  }
+  .scrubber-head{
+    display:flex;
+    justify-content:space-between;
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    color:var(--paper-dim);
+    margin-bottom:12px;
+  }
+  .playhead-label{
+    color:var(--rec);
+  }
+  .track{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:7px;
+  }
+  .track:last-of-type{margin-bottom:0;}
+  .track-label{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--paper-dim);
+    width:20px;
+    flex-shrink:0;
+  }
+  .track-bar{
+    position:relative;
+    flex:1;
+    height:22px;
+    background:rgba(241,236,225,0.04);
+  }
+  .track-clip{
+    position:absolute;
+    top:1px; bottom:1px;
+    display:flex;
+    align-items:center;
+    padding-left:7px;
+    font-family:var(--mono);
+    font-size:9.5px;
+    letter-spacing:0.03em;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+  }
+  .track-clip.audio{
+    background:repeating-linear-gradient(
+      90deg, var(--teal) 0px, var(--teal) 2px, rgba(76,122,110,0.35) 2px, rgba(76,122,110,0.35) 5px
+    );
+    color:var(--paper);
+  }
+  .track-clip.caption{
+    background:transparent;
+    border:1px dashed var(--paper-dim);
+    color:var(--paper-dim);
+  }
+  .playhead{
+    position:absolute;
+    top:38px;
+    bottom:16px;
+    left:26px;
+    width:1.5px;
+    background:var(--rec);
+    animation:scrub 9s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .playhead{animation:none; left:26px;}
+  }
+  @keyframes scrub{
+    0%{left:26px;}
+    100%{left:calc(100% - 20px);}
+  }
+  @media (max-width:600px){
+    .scrubber{display:none;}
+  }
+
+  .hero-footer{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    margin-top:52px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--paper-dim);
+  }
+  .hero-footer a{
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .hero-footer a:hover, .hero-footer a:focus-visible{
+    color:var(--gold);
+    border-color:var(--gold);
+  }
+
+  /* ---------- sections ---------- */
+  section{
+    padding:100px 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:48px;
+  }
+
+  h2{
+    font-family:var(--display);
+    font-size:clamp(32px, 5vw, 44px);
+    letter-spacing:0.01em;
+    color:var(--paper);
+  }
+
+  .about p{
+    max-width:640px;
+    font-size:19px;
+    color:var(--paper-dim);
+  }
+  .about strong{color:var(--paper); font-weight:600;}
+
+  /* ---------- reel / timeline ---------- */
+  .reel{
+    position:relative;
+    padding-left:38px;
+  }
+  .reel::before{
+    content:"";
+    position:absolute;
+    left:9px; top:6px; bottom:6px;
+    width:2px;
+    background:repeating-linear-gradient(
+      to bottom,
+      var(--gold) 0px, var(--gold) 6px,
+      transparent 6px, transparent 12px
+    );
+  }
+
+  .clip{
+    position:relative;
+    padding-bottom:64px;
+  }
+  .clip:last-child{padding-bottom:0;}
+
+  .clip::before{
+    content:"";
+    position:absolute;
+    left:-38px;
+    top:4px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:var(--ink);
+    border:2px solid var(--gold);
+  }
+  .clip.current::before{
+    background:var(--rec);
+    border-color:var(--rec);
+  }
+
+  .timecode{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--gold);
+    letter-spacing:0.06em;
+    margin-bottom:8px;
+    display:block;
+  }
+  .clip.current .timecode{color:var(--rec);}
+
+  .clip h3{
+    font-family:var(--display);
+    font-size:26px;
+    letter-spacing:0.01em;
+    color:var(--paper);
+    font-weight:400;
+  }
+
+  .clip .org{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--teal);
+    margin-top:2px;
+    margin-bottom:16px;
+  }
+
+  .clip ul{
+    list-style:none;
+    max-width:640px;
+  }
+  .clip li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:10px;
+    color:var(--paper-dim);
+    font-size:16px;
+  }
+  .clip li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--gold);
+  }
+
+  /* ---------- platform strip ---------- */
+  .platform-strip{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px;
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--paper);
+    margin-bottom:40px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--line);
+  }
+  .platform-strip .dot{color:var(--gold);}
+
+  /* ---------- tools / skills ---------- */
+  .board{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:18px;
+  }
+  .board-group{
+    border:1px solid var(--line);
+    background:var(--ink-light);
+    padding:22px 20px;
+  }
+  .board-group h4{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:14px;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:6px 11px;
+    border:1px solid var(--line);
+    color:var(--paper);
+    background:rgba(201,162,39,0.06);
+  }
+
+  /* ---------- education ---------- */
+  .edu-card{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+    align-items:flex-end;
+    border:1px solid var(--line);
+    padding:32px;
+    background:var(--ink-light);
+  }
+  .edu-card h3{
+    font-family:var(--display);
+    font-size:28px;
+    font-weight:400;
+    letter-spacing:0.01em;
+  }
+  .edu-card .school{
+    font-family:var(--mono);
+    color:var(--teal);
+    font-size:14px;
+    margin-top:6px;
+  }
+  .honor{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--gold);
+    border:1px solid var(--gold);
+    padding:6px 12px;
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:70px 0 90px;
+    text-align:center;
+  }
+  footer .eyebrow{display:block; margin-bottom:18px;}
+  footer h2{margin-bottom:22px;}
+  footer .contact-row{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:28px;
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--paper-dim);
+  }
+  footer a{
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  footer a:hover, footer a:focus-visible{
+    color:var(--gold);
+    border-color:var(--gold);
+  }
+  footer .end-slate{
+    margin-top:60px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    opacity:0.5;
+  }
+
+  a:focus-visible, .chip:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  @media (max-width:600px){
+    section{padding:70px 0;}
+    header.hero{padding:70px 0 50px;}
+    .edu-card{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sprocket-rail left" aria-hidden="true">
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+</div>
+<div class="sprocket-rail right" aria-hidden="true">
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+  <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+    <div class="hero-slate">
+      <span><span class="rec-dot"></span>LIVE</span>
+      <span>PROJECT: HOLMQUIST_REEL.PRPROJ</span>
+      <span>DURATION: 15:00:00:00</span>
+    </div>
+    <h1 class="name">Jennifer<br>Holmquist</h1>
+    <p class="role-line">VIDEO EDITOR &nbsp;·&nbsp; PRODUCER &nbsp;·&nbsp; SOCIAL &amp; YOUTUBE CONTENT STRATEGIST</p>
+    <p class="hero-summary">
+      Fifteen-plus years cutting, captioning, and launching video across YouTube,
+      Instagram, TikTok, and Facebook. I run production start to finish, then
+      edit, tag, and time every post to turn a finished cut into real audience growth.
+    </p>
+
+    <div class="scrubber" aria-hidden="true">
+      <div class="scrubber-head">
+        <span>00:00:00:00</span>
+        <span class="playhead-label">▶ NOW PLAYING — CAREER_REEL</span>
+        <span>15:00:00:00</span>
+      </div>
+      <div class="track">
+        <span class="track-label">V1</span>
+        <div class="track-bar"><div class="track-clip" style="left:0%;width:20%;background:var(--gold);">PRODUCTION</div><div class="track-clip" style="left:20%;width:48%;background:var(--rec);">OPTIMIZATION</div><div class="track-clip" style="left:68%;width:32%;background:var(--teal);">PUBLISHING</div></div>
+      </div>
+      <div class="track">
+        <span class="track-label">A1</span>
+        <div class="track-bar"><div class="track-clip audio" style="left:0%;width:100%;">SOCIAL CAMPAIGNS · YOUTUBE · IG · TIKTOK · FB</div></div>
+      </div>
+      <div class="track">
+        <span class="track-label">CC</span>
+        <div class="track-bar"><div class="track-clip caption" style="left:8%;width:84%;">content strategy · SEO · analytics · copy</div></div>
+      </div>
+      <div class="playhead"></div>
+    </div>
+
+    <div class="hero-footer">
+      <span>Long Beach, CA</span>
+      <a href="mailto:JenniferSHolmquist@gmail.com">JenniferSHolmquist@gmail.com</a>
+    </div>
+      </div>
+
+      <div class="viewfinder">
+        <img src="headshot.jpg" alt="Portrait of Jennifer Holmquist smiling outdoors">
+        <div class="vf-corner tl"></div>
+        <div class="vf-corner tr"></div>
+        <div class="vf-corner bl"></div>
+        <div class="vf-corner br"></div>
+        <div class="vf-readout"><span class="rec-dot"></span>4K · 24FPS</div>
+        <div class="vf-timecode">01:04:22:18</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">00 — Summary</span>
+    </div>
+    <p>
+      Jennifer is a <strong>YouTube channel management expert</strong> fluent in video editing,
+      content strategy, and film production, both on set and behind the desk. She has guided
+      creative writing, photography, and campaign strategy for entertainment and media
+      clients, working daily in <strong>Adobe Creative Suite, Premiere Pro, Canva Pro,</strong>
+      and <strong>Open Reel</strong> remote capture — with a native fluency in Instagram, Facebook,
+      and TikTok.
+    </p>
+  </div>
+</section>
+
+<section class="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">01 — Timeline</span>
+      <h2>Experience</h2>
+    </div>
+
+    <div class="reel">
+
+      <div class="clip current">
+        <span class="timecode">V1 &nbsp;·&nbsp; 2023 — PRESENT</span>
+        <h3>Producer / Project Manager</h3>
+        <div class="org">Quartermain Media, LLC</div>
+        <ul>
+          <li>Manage production and execution of Quartermain Media's videos and social campaigns from concept through optimization</li>
+          <li>Prepare pitch decks and maintain release calendars for studio feature films; produce remote video via Open Reel</li>
+          <li>Direct social media launch and execution — tags, suggested copy, and edited social cutdowns</li>
+          <li>Maintain content archives and a directory of social media influencer talent</li>
+          <li>Create graphic designs for static and video content across Quartermain Media's channels</li>
+        </ul>
+      </div>
+
+      <div class="clip">
+        <span class="timecode">A1 &nbsp;·&nbsp; 2015 — 2023</span>
+        <h3>Optimization Director</h3>
+        <div class="org">Quartermain Media, LLC</div>
+        <ul>
+          <li>Managed YouTube channels and delivered analytics for clients including Kevin Hart's Laugh Out Loud Network, Essence Magazine, and Deep South Today</li>
+          <li>Led in-depth channel diagnostics and implemented changes for optimized presence and performance</li>
+          <li>Ran client meetings and briefings on campaign updates, growth, and progress</li>
+        </ul>
+      </div>
+
+      <div class="clip">
+        <span class="timecode">A1 &nbsp;·&nbsp; 2011 — 2015</span>
+        <h3>Publishing & Optimization / Optimization Marketer</h3>
+        <div class="org">Disney Interactive (formerly Maker Studios)</div>
+        <ul>
+          <li>Managed YouTube uploading and optimization for MakerMusic and other Maker network channels</li>
+          <li>Implemented video SEO best practices — tags, links, titles, and thumbnails — for video and channel launches</li>
+          <li>Analyzed data and presented weekly optimization reports</li>
+          <li>Partnered with sales, legal, and production teams to hit audience viewership benchmarks</li>
+          <li>Built and A/B tested channel design and operation practices to grow audiences organically</li>
+          <li>Tracked ongoing changes to YouTube's platform and social algorithms</li>
+        </ul>
+      </div>
+
+      <div class="clip">
+        <span class="timecode">CC &nbsp;·&nbsp; 2010 — 2011</span>
+        <h3>Content Researcher</h3>
+        <div class="org">Internet Brands</div>
+        <ul>
+          <li>Contributed to monthly production of 4,000+ articles by researching topics and keywords across multiple websites</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="tools">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">02 — Skills &amp; Software</span>
+      <h2>Edit. Post. Optimize.</h2>
+    </div>
+
+    <div class="platform-strip">
+      <span>YouTube</span><span class="dot">•</span>
+      <span>Instagram</span><span class="dot">•</span>
+      <span>TikTok</span><span class="dot">•</span>
+      <span>Facebook</span>
+    </div>
+
+    <div class="board">
+      <div class="board-group">
+        <h4>Editing &amp; Production</h4>
+        <div class="chip-row">
+          <span class="chip">#PremierePro</span>
+          <span class="chip">#AdobeCreativeSuite</span>
+          <span class="chip">#OpenReel</span>
+          <span class="chip">#CanvaPro</span>
+        </div>
+      </div>
+      <div class="board-group">
+        <h4>Growth &amp; Strategy</h4>
+        <div class="chip-row">
+          <span class="chip">#ChannelOptimization</span>
+          <span class="chip">#VideoSEO</span>
+          <span class="chip">#ContentStrategy</span>
+          <span class="chip">#Analytics</span>
+        </div>
+      </div>
+      <div class="board-group">
+        <h4>Social Platforms</h4>
+        <div class="chip-row">
+          <span class="chip">#YouTube</span>
+          <span class="chip">#Instagram</span>
+          <span class="chip">#TikTok</span>
+          <span class="chip">#Facebook</span>
+        </div>
+      </div>
+      <div class="board-group">
+        <h4>Creative</h4>
+        <div class="chip-row">
+          <span class="chip">#CreativeWriting</span>
+          <span class="chip">#Photography</span>
+          <span class="chip">#GraphicDesign</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="education">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">03 — Education</span>
+      <h2>Education</h2>
+    </div>
+    <div class="edu-card">
+      <div>
+        <h3>Bachelor of Arts, Film Production</h3>
+        <div class="school">Loyola Marymount University — Los Angeles, CA</div>
+      </div>
+      <span class="honor">Cum Laude</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="eyebrow">Cut To —</span>
+    <h2>Let's talk production.</h2>
+    <div class="contact-row">
+      <a href="mailto:JenniferSHolmquist@gmail.com">JenniferSHolmquist@gmail.com</a>
+      <span>Long Beach, CA</span>
+    </div>
+    <div class="end-slate">End of Reel — Thank You for Watching</div>
+  </div>
+</footer>
+
+</body>
+</html>
